@@ -1,60 +1,80 @@
-import Link from "next/link";
+"use client";
 
-export default function Header() {
+import { ClerkLoaded, UserButton, useUser } from "@clerk/nextjs";
+import Link from "next/link";
+import { SignInButton } from "@clerk/clerk-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart, faBox } from "@fortawesome/free-solid-svg-icons";
+
+function Header() {
+  const { user } = useUser();
+
+  const createClerkPasskey = async () => {
+    try {
+      const response = await user?.createPasskey();
+      console.log(response);
+    } catch (err) {
+      console.error("Error:", JSON.stringify(err, null, 2));
+    }
+  };
+
   return (
-    <header className="inset-x-0 top-0 z-30 mx-auto w-full max-w-screen-md border border-gray-100 bg-white/80 py-3 shadow backdrop-blur-lg md:top-6 md:rounded-3xl lg:max-w-screen-lg">
-      <div className="px-4">
-        <div className="flex items-center justify-between">
-          <div className="flex shrink-0">
-            <div aria-current="page" className="flex items-center">
-              <Link href={"/"}>
-                <img
-                  className="h-7 w-auto"
-                  src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
-                  alt="Apple Logo"
-                />
+    <header className="flex flex-wrap justify-between items-center px-4 py-2">
+      {/* Top Row */}
+      <div className="flex w-full flex-wrap justify-between items-center">
+        <Link href="/" className="text-2xl font-bold text-blue-500 hover:opacity-50 cursor-pointer mx-auto sm:mx-0">
+          Second Round
+        </Link>
+        <div className="flex items-center space-x-4 mt-4 sm:mt-0 flex-1 sm:flex-none">
+          <Link
+            href="/basket"
+            className="flex-1 relative flex justify-center sm:justify-start sm:flex-none items-center space-x-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            <FontAwesomeIcon icon={faShoppingCart} className="w-6 h-6" />
+            <span>My Basket</span>
+          </Link>
+
+          {/* User area */}
+          <ClerkLoaded>
+            {user && (
+              <Link
+                href="/orders"
+                className="flex-1 relative flex justify-center sm:justify-start sm:flex-none items-center space-x-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                <FontAwesomeIcon icon={faBox} className="w-6 h-6" />
+                <span>My Orders</span>
               </Link>
+            )}
+
+          {user ? (
+            <div className="flex items-center space-x-2">
+              <UserButton />
+              <div className="hidden sm:block text-xs">
+                <p className="text-gray-400 border-blue-600">Welcome Back</p>
+                <p className="font-bold">{user.fullName}!</p>
+              </div>
             </div>
-          </div>
-          <div className="hidden md:flex md:items-center md:justify-center md:gap-5">
-            <div
-              aria-current="page"
-              className="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900"
-            >
-              How it works
-            </div>
-            <Link
-              href="/prices"
-              className="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900"
-            >
-              Pricing
-            </Link>
-          </div>
-          <div className="flex items-center justify-end gap-3">
-            <Link
-              href="/login"
-              className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-            >
-              Login
-            </Link>
-            <Link
-              href="/logout"
-              className="inline-flex items-center justify-center rounded-xl bg-blue-200 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-            >
-              Logout, Kulv
-            </Link>
-            <Link
-              href="/cart"
-              className="flex items-center justify-center rounded-xl bg-gray-100 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm transition-all duration-150 hover:bg-gray-200"
-            >
-              <img
-                src="https://img.icons8.com/material-outlined/24/000000/shopping-cart.png"
-                alt="Cart"
-              />
-            </Link>
-          </div>
+          ) : (
+            <SignInButton mode="modal">
+                <button className="px-4 py-2 border border-black hover:bg-blue-600 transition-colors duration-300 rounded m-4 hover:text-white">
+                  Sign In
+                </button>
+              </SignInButton>
+          )}
+
+            {user?.passkeys.length === 0 && (
+              <button
+                onClick={createClerkPasskey}
+                className="bg-white hover:bg-blue-700 hover:text-white animate-pulse text-blue-500 font-bold py-2 px-4 rounded border-blue-300 border"
+              >
+                Create Passkey
+              </button>
+            )}
+          </ClerkLoaded>
         </div>
       </div>
     </header>
   );
 }
+
+export default Header;

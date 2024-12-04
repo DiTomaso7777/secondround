@@ -48,7 +48,7 @@ const HeroSection = () => {
         </div>
         <div className="relative mt-8">
           <img
-            src="/https://i.imgur.com/6aFCVlV.png"
+            src="https://i.imgur.com/6aFCVlV.png"
             alt="iPhone"
             className="w-128 h-auto"
           />
