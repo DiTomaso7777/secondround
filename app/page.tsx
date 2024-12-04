@@ -1,10 +1,10 @@
 export default function Home() {
   return (
-    <footer className="bg-gray-800 text-white py-6">
+    <footer className="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-6">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-start">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-start">
           {/* Company Information */}
-          <div className="mb-4 md:mb-0 md:w-1/3">
+          <div className="mb-4 md:mb-0 md:w-1/3 text-center md:text-left">
             <h1 className="text-2xl font-bold">Second Round OÜ</h1>
             <p className="text-sm mt-2">Kassisilma 2, Räni, 61708 Tartu maakond</p>
             <p className="text-sm mt-2">+3725556 2338</p>
@@ -12,7 +12,7 @@ export default function Home() {
           </div>
 
           {/* Menu */}
-          <div className="mb-4 md:mb-0 md:w-1/3">
+          <div className="mb-4 md:mb-0 md:w-1/3 text-center md:text-left">
             <h2 className="text-xl font-bold">Menüü</h2>
             <ul className="mt-2 space-y-1">
               <li><a href="#" className="hover:text-gray-400">Esileht</a></li>
@@ -24,7 +24,7 @@ export default function Home() {
           </div>
 
           {/* Links */}
-          <div className="md:w-1/3">
+          <div className="md:w-1/3 text-center md:text-left">
             <h2 className="text-xl font-bold">Links</h2>
             <ul className="mt-2 space-y-1">
               <li><a href="#" className="hover:text-gray-400">Privacy policy</a></li>
