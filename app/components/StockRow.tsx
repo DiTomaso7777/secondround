@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { useUser,ClerkLoaded } from '@clerk/nextjs';
 
 interface StockRowProps {
   name: string;
@@ -24,6 +25,7 @@ const StockRow: React.FC<StockRowProps> = ({ name, salesprice, quantity }) => {
 
   // Split the name and grade information
   const [productName, grade] = name.split(',');
+  const { user } = useUser();
 
   return (
     <div className="container mx-auto p-1 bg-white shadow-lg rounded-xl overflow-hidden hover:bg-blue-200 transition duration-300">
@@ -45,10 +47,16 @@ const StockRow: React.FC<StockRowProps> = ({ name, salesprice, quantity }) => {
         </div>
 
         {/* Price */}
-        <div className="flex items-center justify-end p-1 w-full md:w-1/4">
-          <p className="text-gray-700">Price: {salesprice} €</p>
-        </div>
-      </div>
+        <ClerkLoaded>
+          <div className="flex items-center justify-end p-1 w-full md:w-1/4">
+            {user ? (
+              <p className="text-gray-700">Price: {salesprice} €</p>
+            ) : (
+              <p className="text-gray-700">Price: ---</p>
+            )}
+          </div>
+        </ClerkLoaded>
+    </div>
     </div>
   );
 };
