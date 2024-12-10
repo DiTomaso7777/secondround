@@ -29,7 +29,7 @@ const Footer = () => {
           <div className="md:w-1/3 text-center md:text-left">
             <h2 className="text-xl font-bold">Links</h2>
             <ul className="mt-2 space-y-1">
-              <li><a href="#" className="hover:text-gray-400">Privacy policy</a></li>
+              <li><a href="#" className="hover:text-gray-400">Hello</a></li>
               <li><a href="#" className="hover:text-gray-400">GDPR</a></li>
               <li><a href="#" className="hover:text-gray-400">Good to know</a></li>
             </ul>
