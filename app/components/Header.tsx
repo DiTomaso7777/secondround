@@ -4,10 +4,15 @@ import { ClerkLoaded, UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { SignInButton } from "@clerk/clerk-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart, faBox } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faBox, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { useCart } from "../context/CartContext";
 
 function Header() {
   const { user } = useUser();
+  const { state } = useCart();
+
+   // Calculate total items in the cart
+   const totalItems = state.items.reduce((total, item) => total + item.quantity, 0);
 
   const createClerkPasskey = async () => {
     try {
@@ -26,12 +31,26 @@ function Header() {
           Second Round
         </Link>
         <div className="flex items-center space-x-4 mt-4 sm:mt-0 flex-1 sm:flex-none">
+           {/* Contact Link - visible only on large screens */}
+           <Link
+            href="/contact"
+            className="hidden flex-1 relative justify-center sm:justify-start sm:flex-none items-center space-x-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6" />
+            <span>Contact</span>
+          </Link>
+         
           <Link
-            href="/basket"
+            href="/cart"
             className="flex-1 relative flex justify-center sm:justify-start sm:flex-none items-center space-x-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             <FontAwesomeIcon icon={faShoppingCart} className="w-6 h-6" />
             <span>My Basket</span>
+            {totalItems > 0 && (
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+                {totalItems}
+              </span>
+            )}
           </Link>
 
           {/* User area */}

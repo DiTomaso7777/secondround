@@ -2,15 +2,17 @@
 
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { useUser,ClerkLoaded } from '@clerk/nextjs';
+import { useUser, ClerkLoaded } from '@clerk/nextjs';
+import AddToCartButton from './AddToCartButton';
 
 interface StockRowProps {
+  code: string;
   name: string;
   salesprice: string;
   quantity: string;
 }
 
-const StockRow: React.FC<StockRowProps> = ({ name, salesprice, quantity }) => {
+const StockRow: React.FC<StockRowProps> = ({ code, name, salesprice, quantity }) => {
   const rowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,9 +29,17 @@ const StockRow: React.FC<StockRowProps> = ({ name, salesprice, quantity }) => {
   const [productName, grade] = name.split(',');
   const { user } = useUser();
 
+  // Log the loaded stock details
+  console.log('Loaded stock details:', { code, name, salesprice, quantity });
+
   return (
     <div className="container mx-auto p-1 bg-white shadow-lg rounded-xl overflow-hidden hover:bg-blue-200 transition duration-300">
       <div ref={rowRef} className="flex flex-col md:flex-row">
+        {/* Hidden Item Code */}
+        <div className="hidden">
+          <p>{code}</p>
+        </div>
+
         {/* Product Name */}
         <div className="flex items-center space-x-1 p-1 w-full md:w-1/4 min-w-0">
           <h3 className="text-lg font-semibold truncate w-full">{productName}</h3>
@@ -56,7 +66,12 @@ const StockRow: React.FC<StockRowProps> = ({ name, salesprice, quantity }) => {
             )}
           </div>
         </ClerkLoaded>
-    </div>
+
+        {/* Add to Cart Button */}
+        <div className="flex items-center justify-end p-1 w-full md:w-1/4">
+          <AddToCartButton item={{ code, name: productName, price: parseFloat(salesprice) }} />
+        </div>
+      </div>
     </div>
   );
 };

@@ -19,6 +19,7 @@
     "node-fetch": "^3.3.2",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
+    "react-query": "^3.39.3",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {

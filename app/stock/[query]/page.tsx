@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import StockRow from "../../components/StockRow";
+
 import { searchStockByName } from "../../lib/stock/searchStockByName";
+import StockRow from "@/app/components/StockRow";
 
 const StockSearchPage = () => {
   const searchParams = useSearchParams();
@@ -90,8 +91,7 @@ const StockSearchPage = () => {
             key={item.code || index}
             name={item.name || "Unknown, Grade"}
             salesprice={item.salesprice || "N/A"}
-            quantity={item.quantity?.toString() || "0"}
-          />
+            quantity={item.quantity?.toString() || "0"} code={""}          />
         ))}
       </div>
       {hasMore && (

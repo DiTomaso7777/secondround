@@ -179,10 +179,10 @@ const FetchStock = () => {
             {currentItems.map((item: any, index: number) => (
               <StockRow
                 key={`${item.code}-${index}`}
+                code={item.code}
                 name={item.name}
                 salesprice={item.salesprice}
-                quantity={item.quantity.toString()}
-              />
+                quantity={item.quantity.toString()}             />
             ))}
           </div>
         ) : (
